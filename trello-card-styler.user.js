@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name        Trello Card Styler
 // @namespace   http://openuserjs.org/users/zarjay/scripts
-// @version     1.0.3
+// @version     1.0.4
 // @description Uses textual markers to style Trello cards
 // @match       https://trello.com/*
-// @copyright   2014
+// @license     MIT License; https://github.com/zarjay/userscripts/blob/master/LICENSE
 // ==/UserScript==
 
 function headerStyle(o) {
