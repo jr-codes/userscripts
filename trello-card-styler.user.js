@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Trello Card Styler
-// @namespace   http://zarjay.net/
-// @version     1.0.1
+// @namespace   https://openuserjs.org/users/zarjay/scripts
+// @version     1.0.2
 // @description Uses textual markers to style Trello cards
 // @match       https://trello.com/*
 // @copyright   2014
@@ -64,7 +64,9 @@ function styleCards(marker, removeMarker, fn) {
 }
 
 function init() {
+    // Add styling to cards with "::"
     styleCards(/::/m, true, headerStyle);
+    // Add styling to cards with "Epic ##"
     styleCards(/Epic\s?(\d*):\s?/m, true, boldStyle);
 }
 
