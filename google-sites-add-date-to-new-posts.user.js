@@ -1,7 +1,8 @@
 // ==UserScript==
 // @name        Google Sites - Add Date to New Posts
 // @namespace   http://openuserjs.org/users/zarjay/scripts
-// @version     1.0.0
+// @author      zarjay
+// @version     1.0.1
 // @description When a new Google Site post is created, "Untitled Post" is replaced with today's date.
 // @match       https://sites.google.com/*
 // @require     https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js
