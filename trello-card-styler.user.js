@@ -1,6 +1,7 @@
 // ==UserScript==
 // @name        Trello Card Styler
 // @namespace   http://openuserjs.org/users/zarjay/scripts
+// @author      zarjay
 // @version     1.0.4
 // @description Uses textual markers to style Trello cards
 // @match       https://trello.com/*
