@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name        YouTube Functions
+// @name        YouTube Utils
 // @namespace   http://openuserjs.org/users/zarjay/scripts
-// @version     1.0.0
+// @version     1.0.1
 // @description Library of Youtube-specific functions runnable from the browser console. The functions only work if the YouTube video is rendered in  HTML5, not Flash.
 // @match       https://www.youtube.com/watch?v=*
 // @license     MIT License; https://github.com/zarjay/userscripts/blob/master/LICENSE
