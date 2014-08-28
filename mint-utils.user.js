@@ -2,7 +2,7 @@
 // @name        Mint Utils
 // @namespace   http://openuserjs.org/users/zarjay/scripts
 // @author      zarjay
-// @version     1.0.0
+// @version     1.0.1
 // @description Library of Mint.com-specific functions runnable from the browser console.
 // @match       https://wwws.mint.com/*
 // @license     MIT License; https://github.com/zarjay/userscripts/blob/master/LICENSE
@@ -14,6 +14,15 @@
     it can be run from the browser console.
 */
 function main() {
+    /** Formats value into money format. */
+    function format(money) {
+        money = money.toFixed(2);
+        money = money.replace(/(\d)(?=(\d{3})+\.)/g,'$1,');
+        money = '$' + money;
+        return money;
+    };
+    
+    
     var u = {};
 
     /** Returns an array of dates on the transaction page. */
@@ -35,7 +44,6 @@ function main() {
         }).get();
     };
 
-    /** Returns transaction values on the transaction page. */
     u.values = function() {
         return jQuery('#transaction-list-body tr:not(.hide) .money').map(function() {
             return this.innerText.replace('–','-').replace(/[^\d.-]/g,'')
@@ -43,12 +51,12 @@ function main() {
     };
 
     /** Returns the sum of the values on the transaction page. */
-    u.sum = function(values, format) {
+    u.sum = function(values, formatResult) {
         values = values || this.values();
         var result = values.reduce(function(a, b) { return +a + +b; }, 0);
         
-        if (typeof format === 'undefined' || format) {
-            result = this.format(result);
+        if (typeof formatResult === 'undefined' || formatResult) {
+            result = format(result);
         }
         
         return result;
@@ -57,27 +65,19 @@ function main() {
     /** Returns the average of the values on the transaction page. */
     u.average = function(values) {
         values = values || this.values();
-        return this.format(this.sum(values, false) / values.length);
+        return format(this.sum(values, false) / values.length);
     };
     
     /** Returns the max value on the transaction page. */
     u.max = function(values) {
         values = values || this.values();
-        return this.format(Math.max.apply(null, values));
+        return format(Math.max.apply(null, values));
     };
     
     /** returns the min value on the transaction page. */
     u.min = function(values) {
         values = values || this.values();
-        return this.format(Math.min.apply(null, values));
-    };
-    
-    /** Formats value into money format. */
-    u.format = function(money) {
-        money = money.toFixed(2);
-        money = money.replace(/(\d)(?=(\d{3})+\.)/g,'$1,');
-        money = '$' + money;
-        return money;
+        return format(Math.min.apply(null, values));
     };
     
     /** Returns an object of calculations from the transaction page. */
