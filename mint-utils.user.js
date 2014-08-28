@@ -2,7 +2,7 @@
 // @name        Mint Utils
 // @namespace   http://openuserjs.org/users/zarjay/scripts
 // @author      zarjay
-// @version     1.0.1
+// @version     1.0.2
 // @description Library of Mint.com-specific functions runnable from the browser console.
 // @match       https://wwws.mint.com/*
 // @license     MIT License; https://github.com/zarjay/userscripts/blob/master/LICENSE
@@ -20,7 +20,7 @@ function main() {
         money = money.replace(/(\d)(?=(\d{3})+\.)/g,'$1,');
         money = '$' + money;
         return money;
-    };
+    }
     
     
     var u = {};
@@ -46,7 +46,7 @@ function main() {
 
     u.values = function() {
         return jQuery('#transaction-list-body tr:not(.hide) .money').map(function() {
-            return this.innerText.replace('–','-').replace(/[^\d.-]/g,'')
+            return this.innerText.replace('–','-').replace(/[^\d.-]/g,'');
         }).get();
     };
 
@@ -87,7 +87,7 @@ function main() {
             average: this.average(),
             min: this.min(),
             max: this.max()
-        }
+        };
     };
 
     /**
