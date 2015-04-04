@@ -24,10 +24,22 @@ function main() {
 
     var u = {};
  
+    /** Removes rows that don't fall within date range (endDate is optional). */
+    u.filter = function(start, end) {
+        start = Date.parse(start);
+        end = (typeof end === undefined) ? Infinity : Date.parse(end);
+        
+        jQuery('#postedTansactionTable tbody tr').filter(function() {
+            var date = Date.parse(this.querySelector('.cT-bodyTableColumn1 .cT-line1').textContent);
+            console.log(date, start, end);
+            return date < start || end < date;
+        }).remove();
+    };
+    
     /** Returns an array of transaction values */
     u.values = function() {
         return jQuery('#postedTansactionTable .cM-numberCell').map(function() {
-            return this.innerText.replace('–','-').replace(/[^\d.-]/g,'');
+            return this.textContent.replace('–','-').replace(/[^\d.-]/g,'');
         }).get();
     };
     
