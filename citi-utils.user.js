@@ -2,7 +2,7 @@
 // @name        Citi Utils
 // @namespace   http://openuserjs.org/users/zarjay/scripts
 // @author      zarjay
-// @version     1.0.0
+// @version     1.1.0
 // @description Library of Citi-specific functions runnable from the browser console.
 // @match       https://online.citibank.com/*
 // @license     MIT License; https://github.com/zarjay/userscripts/blob/master/LICENSE
