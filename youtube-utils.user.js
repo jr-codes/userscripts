@@ -2,7 +2,7 @@
 // @name        YouTube Utils
 // @namespace   http://openuserjs.org/users/zarjay/scripts
 // @author      zarjay
-// @version     1.0.2
+// @version     1.1.0
 // @description Library of Youtube-specific functions runnable from the browser console. The functions only work if the YouTube video is rendered in  HTML5, not Flash.
 // @match       https://www.youtube.com/watch?v=*
 // @license     MIT License; https://github.com/zarjay/userscripts/blob/master/LICENSE
@@ -39,6 +39,12 @@ function main() {
         set: function(value) { this.video.loop = value; }
     });
 
+    /** Get/set video's playbackRate property */
+    Object.defineProperty(u, 'speed', {
+        get: function() { return this.video.playbackRate; },
+        set: function(value) { this.video.playbackRate = value; }
+    });
+    
     /**
         Adds a <link> or <script> to the page
         and returns a promise that resolves when loaded.
