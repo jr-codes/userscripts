@@ -7,6 +7,7 @@
 // @match       http://*/*/job/*/console*
 // @match       https://*/*/job/*/console*
 // @license     MIT License; https://github.com/zarjay/userscripts/blob/master/LICENSE
+// @updateURL   https://openuserjs.org/meta/zarjay/Jenkins_Console_Colors.meta.js
 // ==/UserScript==
 
 function css(content) {
