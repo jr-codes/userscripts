@@ -2,11 +2,12 @@
 // @name        JR's Utils
 // @namespace   http://openuserjs.org/users/zarjay/scripts
 // @author      zarjay
-// @version     1.0.0
+// @version     1.1.0
 // @description Library of functions runnable in the browser console.
 // @match       http://*/*
 // @match       https://*/*
 // @license     MIT License; https://github.com/zarjay/userscripts/blob/master/LICENSE
+// @updateURL   https://openuserjs.org/meta/zarjay/JRs_Utils.meta.js
 // ==/UserScript==
 
 const exec = fn => {
@@ -77,7 +78,7 @@ const main = () => {
     }
 
     // block bubble events with a capture event
-    function intercept(target) {
+    function intercept(target = document.documentElement) {
         const events = [
             'contextmenu',
             'copy',
@@ -136,7 +137,7 @@ const main = () => {
     }
 
     // kinda like jQuery's $()
-    function query(target = [document.documentElement]) {
+    function query(target) {
         if (typeof target === 'string') return [...document.querySelectorAll(target)];
         if (target instanceof Node) return [target];
         return Array.from(target); // hopefully a NodeList, HTMLCollection, or Array
