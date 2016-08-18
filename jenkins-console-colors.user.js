@@ -17,7 +17,7 @@ function css(content) {
 }
 
 function getType(line) {
-    const types = {
+    const markers = {
         error: [
             /\d Error/,
             /FAILED/,
@@ -53,8 +53,8 @@ function getType(line) {
         ]
     };
 
-    for (const type in types) {
-        for (const pattern of types[type]) {
+    for (const type in markers) {
+        for (const pattern of markers[type]) {
             if (pattern.test(line)) {
                 return type;
             }

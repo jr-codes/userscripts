@@ -17,9 +17,9 @@ const exec = fn => {
 
 const main = () => {
     // add CSS to the page
-    function css(css) {
+    function css(content) {
         const element = document.createElement('style');
-        element.textContent = css;
+        element.textContent = content;
         document.head.appendChild(element);
     }
 
@@ -34,14 +34,14 @@ const main = () => {
     }
 
     // add HTML to the page
-    function html(html, position = 'beforeend') {
-        document.body.insertAdjacentHTML(position, html);
+    function html(content, position = 'beforeend') {
+        document.body.insertAdjacentHTML(position, content);
     }
 
     // include JS/CSS from URL or CDN
-    function include(url, type = url.split('.').pop().toLowerCase()) {
-        if (!url.includes('/')) return includeFromCDN(url);
-        return includeFromURL(url, type);
+    function include(asset, type = asset.split('.').pop().toLowerCase()) {
+        if (!asset.includes('/')) return includeFromCDN(asset);
+        return includeFromURL(asset, type);
     }
 
     // include JS/CSS file from CDN
@@ -94,9 +94,9 @@ const main = () => {
     }
 
     // add JS to the page
-    function js(js, isImmediate = false) {
+    function js(content, isImmediate = false) {
         const script = document.createElement('script');
-        script.textContent = isImmediate ? `(${js})()` : js;
+        script.textContent = isImmediate ? `(${content})()` : content;
         document.head.appendChild(script);
     }
 
