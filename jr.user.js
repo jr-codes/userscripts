@@ -2,7 +2,7 @@
 // @name        JR's Utils
 // @namespace   http://openuserjs.org/users/zarjay/scripts
 // @author      zarjay
-// @version     1.1.0
+// @version     1.2.0
 // @description Library of functions runnable in the browser console.
 // @match       http://*/*
 // @match       https://*/*
@@ -22,6 +22,16 @@ const main = () => {
         const element = document.createElement('style');
         element.textContent = content;
         document.head.appendChild(element);
+    }
+
+    // copy JavaScript to the clipboard
+    function copyJS(js) {
+        copy(stringifyJS(js));
+    }
+
+    // copy JSON to the clipboard
+    function copyJSON(js) {
+        copy(stringifyJSON(js));
     }
 
     // make the page editable or non-editable
@@ -143,6 +153,22 @@ const main = () => {
         return Array.from(target); // hopefully a NodeList, HTMLCollection, or Array
     }
 
+    // format JS into a string
+    function stringifyJS(js) {
+        if (typeof js === 'function') {
+            return js.toString();
+        } else if (typeof js === 'object') {
+            return stringifyJSON(js).replace(/"(\w+)":/g, '$1:').replace(/"/g, '\'');
+        } else {
+            return js;
+        }
+    }
+
+    // format JSON into a string
+    function stringifyJSON(js) {
+        return JSON.stringify(js, null, '\t');
+    }
+
     // calculate the sum
     function sum(...values) {
         return values.reduce((a, b) => a + b);
@@ -155,6 +181,8 @@ const main = () => {
 
     const jr = {
         css,
+        copyJS,
+        copyJSON,
         edit,
         frequency,
         html,
