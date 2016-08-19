@@ -2,7 +2,7 @@
 // @name        JR's Utils
 // @namespace   http://openuserjs.org/users/zarjay/scripts
 // @author      zarjay
-// @version     1.2.0
+// @version     1.3.0
 // @description Library of functions runnable in the browser console.
 // @match       http://*/*
 // @match       https://*/*
@@ -50,7 +50,7 @@ const main = () => {
     }
 
     // include JS/CSS from URL or CDN
-    function include(asset, type = asset.split('.').pop().toLowerCase()) {
+    function include(asset, type) {
         if (!asset.includes('/')) return includeFromCDN(asset);
         return includeFromURL(asset, type);
     }
@@ -60,12 +60,12 @@ const main = () => {
         return fetch(`https://api.cdnjs.com/libraries?search=${library}`)
             .then(response => response.json())
             .then(json => json.results[0].latest)
-            .then(include)
-            .catch(error => console.error(`Couldn't find ${library}`))
+            .then(includeFromURL)
+            .catch(error => console.error(`Couldn't load ${library}`, error))
     }
 
     // include JS/CSS file from URL
-    function includeFromURL(url, type) {
+    function includeFromURL(url, type = url.split('.').pop().toLowerCase()) {
         return new Promise((resolve, reject) => {
             let element;
 
@@ -84,7 +84,7 @@ const main = () => {
             element.onload = resolve;
             element.onerror = reject;
             document.head.appendChild(element);
-        });
+        }).then(() => console.log('Loaded', url));
     }
 
     // block bubble events with a capture event
@@ -134,13 +134,13 @@ const main = () => {
         return keys.reduce((array, key) => counted[key] === max ? [...array, key] : array, []);
     }
 
-    // pauses audio/video (pause everything by default)
+    // pause audio/video (pause everything by default)
     function pause(target = 'audio, video') {
         const elements = query(target);
         elements.forEach(element => typeof element.pause === 'function' ? element.pause() : null);
     }
 
-    // plays audio/video (plays first found by default)
+    // play audio/video (plays first found by default)
     function play(target = 'audio, video') {
         const element = query(target)[0];
         if (element && typeof element.play === 'function') element.play();
