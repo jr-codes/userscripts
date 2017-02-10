@@ -2,7 +2,7 @@
 // @name        JR's Utils
 // @namespace   http://openuserjs.org/users/zarjay/scripts
 // @author      zarjay
-// @version     1.3.0
+// @version     1.4.0
 // @description Library of functions runnable in the browser console.
 // @match       http://*/*
 // @match       https://*/*
@@ -88,8 +88,8 @@ const main = () => {
     }
 
     // block bubble events with a capture event
-    function intercept(target = document.documentElement) {
-        const events = [
+    function intercept(target = document.documentElement, events) {
+        events = events || [
             'contextmenu',
             'copy',
             'keydown',
