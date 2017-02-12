@@ -2,7 +2,7 @@
 // @name        JR's Utils
 // @namespace   http://openuserjs.org/users/zarjay/scripts
 // @author      zarjay
-// @version     1.4.0
+// @version     1.4.1
 // @description Library of functions runnable in the browser console.
 // @match       http://*/*
 // @match       https://*/*
@@ -87,18 +87,20 @@ const main = () => {
 		}).then(() => console.log('Loaded', url));
 	}
 
+	const defaultEvents = [
+		'contextmenu',
+		'copy',
+		'keydown',
+		'keypress',
+		'keyup',
+		'mousedown',
+		'mouseup',
+		'paste',
+		'selectstart'
+	];
+
 	// block bubble events with a capture event
-	function intercept(target = document.documentElement, events) {
-		events = events || [
-				'contextmenu',
-				'copy',
-				'keydown',
-				'keypress',
-				'keyup',
-				'mousedown',
-				'mouseup',
-				'selectstart'
-			];
+	function intercept(target = document.documentElement, events = defaultEvents) {
 		const stopEvents = event => event.stopPropagation();
 		query(target).forEach(element =>
 			events.forEach(event => element.addEventListener(event, stopEvents, true)));
