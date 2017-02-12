@@ -11,200 +11,200 @@
 // ==/UserScript==
 
 const exec = fn => {
-    const script = document.createElement('script');
-    script.textContent = `(${fn})()`;
-    document.head.appendChild(script);
+	const script = document.createElement('script');
+	script.textContent = `(${fn})()`;
+	document.head.appendChild(script);
 };
 
 const main = () => {
-    // add CSS to the page
-    function css(content) {
-        const element = document.createElement('style');
-        element.textContent = content;
-        document.head.appendChild(element);
-    }
+	// add CSS to the page
+	function css(content) {
+		const element = document.createElement('style');
+		element.textContent = content;
+		document.head.appendChild(element);
+	}
 
-    // copy JavaScript to the clipboard
-    function copyJS(js) {
-        copy(stringifyJS(js));
-    }
+	// copy JavaScript to the clipboard
+	function copyJS(js) {
+		copy(stringifyJS(js));
+	}
 
-    // copy JSON to the clipboard
-    function copyJSON(js) {
-        copy(stringifyJSON(js));
-    }
+	// copy JSON to the clipboard
+	function copyJSON(js) {
+		copy(stringifyJSON(js));
+	}
 
-    // make the page editable or non-editable
-    function edit(canEdit = true) {
-        document.designMode = canEdit ? 'on' : 'off';
-    }
+	// make the page editable or non-editable
+	function edit(canEdit = true) {
+		document.designMode = canEdit ? 'on' : 'off';
+	}
 
-    // count occurrences of each value
-    function frequency(...values) {
-        return values.reduce((obj, val) => Object.assign(obj, { [val]: (obj[val] || 0) + 1 }), {});
-    }
+	// count occurrences of each value
+	function frequency(...values) {
+		return values.reduce((obj, val) => Object.assign(obj, { [val]: (obj[val] || 0) + 1 }), {});
+	}
 
-    // add HTML to the page
-    function html(content, position = 'beforeend') {
-        document.body.insertAdjacentHTML(position, content);
-    }
+	// add HTML to the page
+	function html(content, position = 'beforeend') {
+		document.body.insertAdjacentHTML(position, content);
+	}
 
-    // include JS/CSS from URL or CDN
-    function include(asset, type) {
-        if (!asset.includes('/')) return includeFromCDN(asset);
-        return includeFromURL(asset, type);
-    }
+	// include JS/CSS from URL or CDN
+	function include(asset, type) {
+		if (!asset.includes('/')) return includeFromCDN(asset);
+		return includeFromURL(asset, type);
+	}
 
-    // include JS/CSS file from CDN
-    function includeFromCDN(library) {
-        return fetch(`https://api.cdnjs.com/libraries?search=${library}`)
-            .then(response => response.json())
-            .then(json => json.results[0].latest)
-            .then(includeFromURL)
-            .catch(error => console.error(`Couldn't load ${library}`, error))
-    }
+	// include JS/CSS file from CDN
+	function includeFromCDN(library) {
+		return fetch(`https://api.cdnjs.com/libraries?search=${library}`)
+			.then(response => response.json())
+			.then(json => json.results[0].latest)
+			.then(includeFromURL)
+			.catch(error => console.error(`Couldn't load ${library}`, error))
+	}
 
-    // include JS/CSS file from URL
-    function includeFromURL(url, type = url.split('.').pop().toLowerCase()) {
-        return new Promise((resolve, reject) => {
-            let element;
+	// include JS/CSS file from URL
+	function includeFromURL(url, type = url.split('.').pop().toLowerCase()) {
+		return new Promise((resolve, reject) => {
+			let element;
 
-            if (type === 'css') {
-                element = document.createElement('link');
-                element.rel = 'stylesheet';
-                element.href = url;
-            } else if (type === 'js') {
-                element = document.createElement('script');
-                element.src = url;
-                element.async = false;
-            } else {
-                throw new Error(`Failed to include ${url} due to unknown file type.`);
-            }
+			if (type === 'css') {
+				element = document.createElement('link');
+				element.rel = 'stylesheet';
+				element.href = url;
+			} else if (type === 'js') {
+				element = document.createElement('script');
+				element.src = url;
+				element.async = false;
+			} else {
+				throw new Error(`Failed to include ${url} due to unknown file type.`);
+			}
 
-            element.onload = resolve;
-            element.onerror = reject;
-            document.head.appendChild(element);
-        }).then(() => console.log('Loaded', url));
-    }
+			element.onload = resolve;
+			element.onerror = reject;
+			document.head.appendChild(element);
+		}).then(() => console.log('Loaded', url));
+	}
 
-    // block bubble events with a capture event
-    function intercept(target = document.documentElement, events) {
-        events = events || [
-            'contextmenu',
-            'copy',
-            'keydown',
-            'keypress',
-            'keyup',
-            'mousedown',
-            'mouseup',
-            'selectstart'
-        ];
-        const stopEvents = event => event.stopPropagation();
-        query(target).forEach(element =>
-            events.forEach(event => element.addEventListener(event, stopEvents, true)));
-    }
+	// block bubble events with a capture event
+	function intercept(target = document.documentElement, events) {
+		events = events || [
+				'contextmenu',
+				'copy',
+				'keydown',
+				'keypress',
+				'keyup',
+				'mousedown',
+				'mouseup',
+				'selectstart'
+			];
+		const stopEvents = event => event.stopPropagation();
+		query(target).forEach(element =>
+			events.forEach(event => element.addEventListener(event, stopEvents, true)));
+	}
 
-    // add JS to the page
-    function js(content, isImmediate = false) {
-        const script = document.createElement('script');
-        script.textContent = isImmediate ? `(${content})()` : content;
-        document.head.appendChild(script);
-    }
+	// add JS to the page
+	function js(content, isImmediate = false) {
+		const script = document.createElement('script');
+		script.textContent = isImmediate ? `(${content})()` : content;
+		document.head.appendChild(script);
+	}
 
-    // calculate the mean
-    function mean(...values) {
-        return sum(...values) / values.length;
-    }
+	// calculate the mean
+	function mean(...values) {
+		return sum(...values) / values.length;
+	}
 
-    // calculate the median
-    function median(...values) {
-        values.sort((a, b) => a - b);
-        const low = (values.length - 1) >> 1;
-        const high = values.length >> 1;
-        return (values[low] + values[high]) / 2;
-    }
+	// calculate the median
+	function median(...values) {
+		values.sort((a, b) => a - b);
+		const low = (values.length - 1) >> 1;
+		const high = values.length >> 1;
+		return (values[low] + values[high]) / 2;
+	}
 
-    // calculate the mode
-    function mode(...values) {
-        const counted = frequency(...values);
-        const keys = unique(...values);
-        const vals = keys.map(x => counted[x]);
-        if (vals.every(x => x < 2)) return [];
-        const max = Math.max(...vals);
-        return keys.reduce((array, key) => counted[key] === max ? [...array, key] : array, []);
-    }
+	// calculate the mode
+	function mode(...values) {
+		const counted = frequency(...values);
+		const keys = unique(...values);
+		const vals = keys.map(x => counted[x]);
+		if (vals.every(x => x < 2)) return [];
+		const max = Math.max(...vals);
+		return keys.reduce((array, key) => counted[key] === max ? [...array, key] : array, []);
+	}
 
-    // pause audio/video (pause everything by default)
-    function pause(target = 'audio, video') {
-        const elements = query(target);
-        elements.forEach(element => typeof element.pause === 'function' ? element.pause() : null);
-    }
+	// pause audio/video (pause everything by default)
+	function pause(target = 'audio, video') {
+		const elements = query(target);
+		elements.forEach(element => typeof element.pause === 'function' ? element.pause() : null);
+	}
 
-    // play audio/video (plays first found by default)
-    function play(target = 'audio, video') {
-        const element = query(target)[0];
-        if (element && typeof element.play === 'function') element.play();
-    }
+	// play audio/video (plays first found by default)
+	function play(target = 'audio, video') {
+		const element = query(target)[0];
+		if (element && typeof element.play === 'function') element.play();
+	}
 
-    // kinda like jQuery's $()
-    function query(target) {
-        if (typeof target === 'string') return [...document.querySelectorAll(target)];
-        if (target instanceof Node) return [target];
-        return Array.from(target); // hopefully a NodeList, HTMLCollection, or Array
-    }
+	// kinda like jQuery's $()
+	function query(target) {
+		if (typeof target === 'string') return [...document.querySelectorAll(target)];
+		if (target instanceof Node) return [target];
+		return Array.from(target); // hopefully a NodeList, HTMLCollection, or Array
+	}
 
-    // format JS into a string
-    function stringifyJS(js) {
-        if (typeof js === 'function') {
-            return js.toString();
-        } else if (typeof js === 'object') {
-            return stringifyJSON(js).replace(/"(\w+)":/g, '$1:').replace(/"/g, '\'');
-        } else {
-            return js;
-        }
-    }
+	// format JS into a string
+	function stringifyJS(js) {
+		if (typeof js === 'function') {
+			return js.toString();
+		} else if (typeof js === 'object') {
+			return stringifyJSON(js).replace(/"(\w+)":/g, '$1:').replace(/"/g, '\'');
+		} else {
+			return js;
+		}
+	}
 
-    // format JSON into a string
-    function stringifyJSON(js) {
-        return JSON.stringify(js, null, '\t');
-    }
+	// format JSON into a string
+	function stringifyJSON(js) {
+		return JSON.stringify(js, null, '\t');
+	}
 
-    // calculate the sum
-    function sum(...values) {
-        return values.reduce((a, b) => a + b);
-    }
+	// calculate the sum
+	function sum(...values) {
+		return values.reduce((a, b) => a + b);
+	}
 
-    // filter out duplicate values
-    function unique(...values){
-        return values.filter((x, i) => values.indexOf(x) === i)
-    }
+	// filter out duplicate values
+	function unique(...values) {
+		return values.filter((x, i) => values.indexOf(x) === i)
+	}
 
-    const jr = {
-        css,
-        copyJS,
-        copyJSON,
-        edit,
-        frequency,
-        html,
-        include,
-        intercept,
-        js,
-        mean,
-        median,
-        mode,
-        pause,
-        play,
-        query,
-        sum,
-        unique
-    };
+	const jr = {
+		css,
+		copyJS,
+		copyJSON,
+		edit,
+		frequency,
+		html,
+		include,
+		intercept,
+		js,
+		mean,
+		median,
+		mode,
+		pause,
+		play,
+		query,
+		sum,
+		unique
+	};
 
-    if (window.jr) {
-        console.warn('Userscript: jr variable is taken.');
-    } else {
-        window.jr = jr;
-        console.log('Userscript: jr is loaded.');
-    }
+	if (window.jr) {
+		console.warn('Userscript: jr variable is taken.');
+	} else {
+		window.jr = jr;
+		console.log('Userscript: jr is loaded.');
+	}
 };
 
 exec(main);
