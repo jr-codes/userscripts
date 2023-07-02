@@ -86,6 +86,7 @@
     events = [
       'contextmenu',
       'copy',
+      'input',
       'keydown',
       'keypress',
       'keyup',
